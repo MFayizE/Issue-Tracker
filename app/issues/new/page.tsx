@@ -1,5 +1,5 @@
 'use client'
-import { Button, Text, TextField } from '@radix-ui/themes'
+import { Button, Callout, Text, TextField } from '@radix-ui/themes'
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import { useForm, Controller } from 'react-hook-form';
@@ -21,6 +21,7 @@ const NewIssuePage = () => {
     const { register, control, handleSubmit, formState: { errors } } = useForm<IssueForm>({
         resolver: zodResolver(createIssueSchema)
     })
+    const [error, setError] = useState('')
     const [isSubmitting, setSubmitting] = useState(false)
 
     const onSubmit = handleSubmit(async (data) => {
@@ -29,25 +30,35 @@ const NewIssuePage = () => {
             await axios.post('/api/issues', data)
             router.push('/issues')
         } catch (error) {
+            setError('An unexpected error occured.')
             setSubmitting(false)
         }
 
     })
     return (
-        <form className='max-w-xl space-y-3'
-            onSubmit={onSubmit}>
-            <TextField.Root>
-                <TextField.Input placeholder='Title' {...register('title')} />
-            </TextField.Root>
-            <ErrorMessage >{errors.title?.message}</ErrorMessage>
-            <Controller name='description'
-                control={control}
-                render={({ field }) => <SimpleMDE placeholder='Description' {...field} />
-                } />
-            <ErrorMessage>{errors.description?.message}</ErrorMessage>
+        <div className='max-w-xl'>
+            {
+                error &&
+                <Callout.Root color='red' className='mb-5'>
+                    <Callout.Text>{error}</Callout.Text>
+                </Callout.Root>
+            }
 
-            <Button disabled={isSubmitting}>Submit new issue {isSubmitting && <Spinner />}</Button>
-        </form>
+            <form className=' space-y-3'
+                onSubmit={onSubmit}>
+                <TextField.Root>
+                    <TextField.Input placeholder='Title' {...register('title')} />
+                </TextField.Root>
+                <ErrorMessage >{errors.title?.message}</ErrorMessage>
+                <Controller name='description'
+                    control={control}
+                    render={({ field }) => <SimpleMDE placeholder='Description' {...field} />
+                    } />
+                <ErrorMessage>{errors.description?.message}</ErrorMessage>
+
+                <Button disabled={isSubmitting}>Submit new issue {isSubmitting && <Spinner />}</Button>
+            </form>
+        </div>
     )
 }
 
