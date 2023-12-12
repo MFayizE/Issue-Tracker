@@ -11,7 +11,6 @@ import { z } from 'zod';
 import ErrorMessage from '@/app/components/ErrorMessage';
 import Spinner from '@/app/components/Spinner';
 import { useState } from 'react';
-
 type IssueForm = z.infer<typeof createIssueSchema>;
 
 
@@ -44,7 +43,7 @@ const NewIssuePage = () => {
                 </Callout.Root>
             }
 
-            <form className=' space-y-3'
+            <form className='space-y-3'
                 onSubmit={onSubmit}>
                 <TextField.Root>
                     <TextField.Input placeholder='Title' {...register('title')} />
