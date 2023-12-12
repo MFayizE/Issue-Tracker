@@ -1,9 +1,8 @@
 import { Table } from '@radix-ui/themes'
 import React from 'react'
 import prisma from "@/prisma/client"
-import IssueStatusBadge from '../components/IssueStatusBadge'
 import IssuesActions from './IssuesActions'
-import Link from '../components/Link'
+import { IssueStatusBadge, Link } from '@/app/components'
 const IssuesPage = async () => {
     const issues = await prisma.issue.findMany()
     return (
