@@ -6,6 +6,7 @@ import '@radix-ui/themes/styles.css';
 import { Container, Theme } from '@radix-ui/themes';
 import './theme-config.css';
 import AuthProvider from './auth/Provider';
+import QueryClientProvider from './QueryClientProvider';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -27,16 +28,18 @@ export default function RootLayout({
     <html lang="en" className={inter.variable}>
 
       <body className={inter.className}>
-        <AuthProvider>
-          <Theme accentColor='violet'>
-            <NavBar />
-            <main className='p-5'>
-              <Container>
-                {children}
-              </Container>
-            </main>
-          </Theme>
-        </AuthProvider>
+        <QueryClientProvider>
+          <AuthProvider>
+            <Theme accentColor='violet'>
+              <NavBar />
+              <main className='p-5'>
+                <Container>
+                  {children}
+                </Container>
+              </main>
+            </Theme>
+          </AuthProvider>
+        </QueryClientProvider>
       </body>
 
     </html>
