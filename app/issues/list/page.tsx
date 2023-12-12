@@ -3,8 +3,18 @@ import React from 'react'
 import prisma from "@/prisma/client"
 import IssuesActions from './IssuesActions'
 import { IssueStatusBadge, Link } from '@/app/components'
-const IssuesPage = async () => {
-    const issues = await prisma.issue.findMany()
+import { Status } from '@prisma/client'
+
+const IssuesPage = async ({ searchParams }: { searchParams: { status: Status } }) => {
+    const statusList = Object.values(Status)
+    const status = statusList.includes(searchParams.status) ? searchParams.status : undefined
+        
+
+    const issues = await prisma.issue.findMany({
+        where: {
+            status
+        }
+    })
     return (
         <div>
             <IssuesActions />
