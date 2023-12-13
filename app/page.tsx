@@ -1,7 +1,8 @@
 import Image from 'next/image'
+import LatestIssue from './LatestIssue'
 
 export default function Home() {
   return (
-    <div>Hello World</div>
+    <LatestIssue/>
   )
 }
